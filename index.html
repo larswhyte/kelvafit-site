@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kelvafit — Gym management software, built around real training</title>
+<meta name="description" content="Kelvafit is how a gym runs day to day — classes, programming, progress tracking, and payments, all in one app.">
+<style>
+  :root {
+    --bg: #0b0d12;
+    --panel: #12151c;
+    --panel-light: #1a1f29;
+    --border: #232935;
+    --text: #eef1f6;
+    --muted: #9aa4b2;
+    --accent: #4fd1c5;
+    --accent-soft: rgba(79, 209, 197, 0.12);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+  header.top {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 20px; letter-spacing: -0.02em;
+  }
+  .logo-mark {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #2b8f86);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 800; color: #06201d;
+  }
+
+  .hero {
+    padding: 96px 0 72px;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin: 0 0 20px;
+  }
+  .hero p.lead {
+    font-size: 19px;
+    color: var(--muted);
+    max-width: 640px;
+    margin: 0 auto 36px;
+  }
+  .cta-row {
+    display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #06201d;
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .story {
+    padding: 64px 0;
+    border-top: 1px solid var(--border);
+  }
+  .story h2 {
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .story-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+  }
+  .step {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .step .num {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .step h3 {
+    margin: 0 0 8px;
+    font-size: 17px;
+  }
+  .step p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14.5px;
+  }
+
+  .highlights {
+    padding: 64px 0;
+    border-top: 1px solid var(--border);
+  }
+  .highlights h2 {
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .highlights p.sub {
+    text-align: center;
+    color: var(--muted);
+    margin: 0 0 36px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .card h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+  }
+  .card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .plans {
+    padding: 64px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .plans h2 {
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .plans p {
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto 32px;
+  }
+  .plan-row {
+    display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+  }
+  .plan {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    width: 260px;
+    text-align: left;
+  }
+  .plan.featured {
+    border-color: var(--accent);
+    background: var(--panel-light);
+  }
+  .plan .tier {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .plan h3 { margin: 0 0 12px; font-size: 20px; }
+  .plan ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
+  .plan li { margin-bottom: 6px; }
+
+  .cta-final {
+    padding: 72px 0 96px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .cta-final h2 {
+    font-size: 30px;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  .cta-final p {
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    color: var(--muted);
+    font-size: 13.5px;
+    text-align: center;
+  }
+
+  .badge-soon {
+    display: inline-block;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="logo">
+      <div class="logo-mark">K</div>
+      Kelvafit
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="badge-soon">Coming soon</span>
+    <h1>Run your gym.<br>Not your spreadsheets.</h1>
+    <p class="lead">Kelvafit is how a gym runs day to day — from the class on the schedule to the member paying for it. Classes, programming, progress tracking, and payments, all in one app.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:hello@kelvafit.com">Get in touch</a>
+      <a class="btn btn-secondary" href="#story">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div class="wrap">
+    <h2>From the schedule to the payment — one app, start to finish</h2>
+    <div class="story-steps">
+      <div class="step">
+        <div class="num">01</div>
+        <h3>Build the programme</h3>
+        <p>Set up your classes and schedule, build the training programme for each session — sets, reps, exercises — and save it once so it's ready every time that class runs again.</p>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <h3>Members book in</h3>
+        <p>Clients open the app to see what's on, book themselves into a class, and show up already knowing what they're training that day.</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <h3>Results get logged</h3>
+        <p>After each session, results are logged against the programme — what was lifted, how many reps, any personal bests along the way.</p>
+      </div>
+      <div class="step">
+        <div class="num">04</div>
+        <h3>Progress becomes visible</h3>
+        <p>Over time that builds into a real picture of progress — a member sees exactly how far they've come, and a trainer sees the same, without digging through old notes.</p>
+      </div>
+      <div class="step">
+        <div class="num">05</div>
+        <h3>Payments, handled</h3>
+        <p>Membership and payments run through the app too — a client subscribes and pays by card, Apple Pay, or Google Pay via Stripe, right inside the app.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="highlights">
+  <div class="wrap">
+    <h2>Why gyms pick Kelvafit</h2>
+    <p class="sub">Not a generic scheduling app with a fitness skin — built around how gyms actually train people.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>AI, built in, not bolted on</h3>
+        <p>AI Insights for members and trainers, an AI Progress Summary in two tones, and an AI Gym Assistant for the business dashboard — all answering from your gym's real, live data.</p>
+      </div>
+      <div class="card">
+        <h3>Competitive pricing, clear upgrade path</h3>
+        <p>Every gym gets its own logo and colour palette inside the app out of the box, at no extra cost. Your own standalone branded app is a premium upgrade when you're ready.</p>
+      </div>
+      <div class="card">
+        <h3>We support migrating your data</h3>
+        <p>Bringing an existing membership base onto Kelvafit — plans, contacts, history — is supported, so switching platforms doesn't mean starting from zero.</p>
+      </div>
+      <div class="card">
+        <h3>A real business dashboard</h3>
+        <p>Retention cohorts, at-risk member counts, peak times, next month's projected billing, trainer-by-trainer performance — not just a single revenue number.</p>
+      </div>
+      <div class="card">
+        <h3>Personal bests, tracked properly</h3>
+        <p>Reps at a given weight, not just the heaviest number ever lifted — because a gym owner and trainer both know that distinction actually matters.</p>
+      </div>
+      <div class="card">
+        <h3>Class Board</h3>
+        <p>A live, TV-friendly display for the gym floor showing every athlete's exercises and weights at a glance, alongside a running clock.</p>
+      </div>
+      <div class="card">
+        <h3>Community, opt-in</h3>
+        <p>A leaderboard and gamification built around effort, not just raw weight — Most Improved, Attendance, New PBs. Every member chooses whether to join in.</p>
+      </div>
+      <div class="card">
+        <h3>Progress, visible to both sides</h3>
+        <p>A member watches their own numbers climb — one of the strongest motivators in fitness. A trainer sees the same, coaching sharper without digging through notes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="plans">
+  <div class="wrap">
+    <h2>Two tiers, one platform</h2>
+    <p>Every gym gets a fully private space on the platform, with a plan that fits their needs.</p>
+    <div class="plan-row">
+      <div class="plan">
+        <div class="tier">Core</div>
+        <h3>Everything to run the front desk</h3>
+        <ul>
+          <li>Class scheduling & booking</li>
+          <li>Membership management</li>
+          <li>In-app payments via Stripe</li>
+          <li>Your logo & colours, included</li>
+        </ul>
+      </div>
+      <div class="plan featured">
+        <div class="tier">Performance</div>
+        <h3>Everything, plus real training</h3>
+        <ul>
+          <li>Everything in Core</li>
+          <li>Programme building & progress tracking</li>
+          <li>Personal bests & leaderboard</li>
+          <li>AI Insights & AI Gym Assistant</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="wrap">
+    <h2>The full site is on its way.</h2>
+    <p>In the meantime, if you're a gym owner curious about Kelvafit, get in touch directly.</p>
+    <a class="btn btn-primary" href="mailto:hello@kelvafit.com">hello@kelvafit.com</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    &copy; 2026 Kelvafit. All rights reserved.
+  </div>
+</footer>
+
+</body>
+</html>
