@@ -127,6 +127,8 @@
   .train-visual { display: grid; gap: 22px; }
   .train-pair { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; align-items: start; margin-top: -40px; padding: 0 12px; }
   .train-pair .shot { width: 100%; }
+  .optional-note { margin-top: 14px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); font-size: 15px; color: var(--muted); }
+  .optional-note b { color: var(--accent); }
   @media (max-width: 600px) { .train-pair { grid-template-columns: 1fr; margin-top: 16px; padding: 0; } .train-pair .shot:last-child { width: 82%; margin: 0 auto; } }
 
   /* Colour strip */
@@ -137,15 +139,15 @@
   .strip figcaption span { display: block; color: var(--muted); font-weight: 500; font-size: 13px; }
   .strip-note { text-align: center; color: var(--dim); font-size: 14px; margin-top: 26px; }
 
-  /* Tiers */
-  .tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: 0 auto; }
-  .tier { background: var(--panel); border: 1px solid var(--border); border-radius: 20px; padding: 32px; position: relative; }
-  .tier.featured { border-color: rgba(79,209,197,0.55); background: linear-gradient(180deg, rgba(79,209,197,0.08), var(--panel) 40%); }
-  .tier .name { color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: 13px; }
-  .tier h3 { font-size: 24px; margin: 8px 0 6px; }
-  .tier .price { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
-  .tier .ticks { margin-bottom: 26px; }
-  .tier .btn { width: 100%; }
+  /* Pricing */
+  .pick { max-width: 900px; margin: 0 auto; background: var(--panel); border: 1px solid rgba(79,209,197,0.4); border-radius: 20px; padding: 32px; background: linear-gradient(180deg, rgba(79,209,197,0.07), var(--panel) 45%); }
+  .pick-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; margin: 0; padding: 0; }
+  .pick-list li { display: flex; flex-direction: column; gap: 2px; padding: 12px 0 12px 30px; border-bottom: 1px solid var(--border); position: relative; }
+  .pick-list li::before { content: "+"; position: absolute; left: 0; top: 11px; width: 20px; height: 20px; border-radius: 6px; background: rgba(79,209,197,0.15); color: var(--accent); font-weight: 800; font-size: 14px; display: grid; place-items: center; }
+  .pick-list b { font-size: 16px; }
+  .pick-list span { color: var(--muted); font-size: 14px; }
+  .pick-foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 26px; flex-wrap: wrap; }
+  .pick-foot p { color: var(--muted); font-size: 15px; max-width: 520px; margin: 0; }
   .tier-note { text-align: center; color: var(--dim); font-size: 14px; margin-top: 22px; }
 
   /* FAQ */
@@ -181,13 +183,14 @@
     .nav-links { display: none; }
     .feature, .feature.flip { grid-template-columns: 1fr; gap: 36px; }
     .feature.flip .f-copy { order: 0; }
-    .stage { padding: 0 0 10px; } .stage .shot { display: none; }
+    .stage { padding: 0 0 10px; margin-top: 48px; } .stage .shot, .stage .tv-frame { display: none; }
+    .stage .hp-right { display: block; position: relative; right: auto; bottom: auto; transform: none; width: 78%; max-width: 300px; margin: 0 auto; }
     .run-visual { padding-right: 0; padding-bottom: 0; }
     .run-visual .shot { position: relative; width: 60%; max-width: 240px; margin: -40px 0 0 auto; }
   }
   @media (max-width: 640px) {
     .wrap { padding: 0 16px; }
-    .who-tiles, .proof-grid, .tiers { grid-template-columns: 1fr; }
+    .who-tiles, .proof-grid, .pick-list { grid-template-columns: 1fr; }
     .strip { gap: 10px; }
     .strip .shot { border-width: 4px; border-radius: 16px; }
     .strip figcaption { font-size: 13px; } .strip figcaption span { font-size: 11px; }
@@ -196,7 +199,7 @@
     .signin-link { display: none; }
     .hero .lead { font-size: 17px; }
     section { padding: 64px 0; }
-    .tier { padding: 24px; }
+    .pick { padding: 22px; } .pick-foot .btn { width: 100%; justify-content: center; }
     .final-box { padding: 48px 20px; }
   }
 </style>
@@ -230,7 +233,7 @@
     <div class="hero-inner">
       <div class="eyebrow"><span class="dot"></span>For gyms, studios and personal trainers</div>
       <h1>Run your gym.<br><span class="grad">Train your members.</span></h1>
-      <p class="lead">KelvaFit is one app built around real training, from first booking to personal best. Classes, programmes, nutrition, progress, PT and payments, for your members and your coaches.</p>
+      <p class="lead">KelvaFit is one app built around real training, from first booking to personal best. Classes, programmes, progress, PT and payments, plus nutrition if you want it. For your members and your coaches.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="mailto:hello@kelvafit.com?subject=KelvaFit%20demo&body=Hi%2C%20I'd%20like%20to%20book%20a%20KelvaFit%20demo.%0A%0AGym%20or%20business%20name%3A%0AMembers%20or%20clients%20(approx.)%3A%0ABest%20time%20to%20talk%3A">Book a demo →</a>
         <a class="btn btn-ghost" href="#train">See what it does</a>
@@ -241,7 +244,7 @@
     <div class="stage reveal">
       <div class="tv-frame"><img src="assets/tv-class-board.jpg" alt="The Class Board on a gym TV: each member's weights for every exercise, with completed sets in green" width="1600" height="720"></div>
       <div class="shot hp-left"><img src="assets/strip-ironvale.jpg" alt="A member's home screen: next class, training streak and today's food" width="720" height="1373"></div>
-      <div class="shot hp-right"><img src="assets/phone-muscle-map.jpg" alt="Muscle split on a body map, showing which muscles a member has trained most" width="720" height="1373"></div>
+      <div class="shot hp-right"><img src="assets/staff-home.jpg" alt="The trainer's home screen in the staff app: the next class, how many are booked, who's in, the Class Board button and the day's classes" width="720" height="1249"></div>
     </div>
   </div>
 </section>
@@ -249,7 +252,7 @@
 <!-- WHO IT'S FOR -->
 <div class="who">
   <div class="wrap">
-    <p class="who-line reveal">KelvaFit is for <b>gyms, studios and personal trainers</b>.</p>
+    <p class="who-line reveal">KelvaFit is for <b>gyms, studios and personal trainers</b>, built in Ireland.</p>
     <div class="who-tiles">
       <a class="who-tile reveal" href="#train"><div class="ic">🏋️</div><h3>Gyms</h3><p>Classes, programming, memberships and payments for a busy timetable.</p><span class="go">Classes and training →</span></a>
       <a class="who-tile reveal" href="#plans"><div class="ic">🧘</div><h3>Studios</h3><p>Smaller groups, closer coaching: plans and nutrition for every member.</p><span class="go">Plans for every member →</span></a>
@@ -263,12 +266,12 @@
   <div class="wrap">
     <div class="proof-grid">
       <div class="proof-card reveal">
-        <div class="who-k">A class gym in Dublin</div>
+        <div class="who-k">A class gym in Dublin, Ireland</div>
         <p>Runs its full class timetable on KelvaFit: booking, class plans on the TV, member training and payments.</p>
         <p class="small">Members book, train and track their progress in the gym's own colours.</p>
       </div>
       <div class="proof-card reveal">
-        <div class="who-k">A personal trainer in Dublin</div>
+        <div class="who-k">A personal trainer in Dublin, Ireland</div>
         <p>Runs 1:1 clients on KelvaFit: session credits, programmes, nutrition targets and booking the next session.</p>
         <p class="small">No gym needed. The same app, set up for one coach and their clients.</p>
       </div>
@@ -308,12 +311,12 @@
   <div class="wrap feature flip">
     <div class="f-copy reveal">
       <div class="kicker">A plan for every member</div>
-      <h2>Programmes and meal plans, not just for PT clients</h2>
-      <p>Build a training programme or a nutrition plan once in your library, then give it to any member. They follow it in the app, and you see how they're getting on.</p>
+      <h2>Build your own programmes and meal plans, for every member</h2>
+      <p>You and your coaches build the training programmes in your own library, plus meal plans if you offer nutrition, then give them to any member, not just PT clients. They follow them in the app, and you see how they're getting on.</p>
       <ul class="ticks">
-        <li>Multi-week training programmes assigned to any member</li>
-        <li>Daily nutrition targets, with separate training-day and rest-day numbers</li>
-        <li>7-day meal plans members can follow, meal by meal, with recipe photos and the method</li>
+        <li>Build multi-week training programmes and assign them to any member</li>
+        <li>Set daily nutrition targets, with separate training-day and rest-day numbers</li>
+        <li>Build 7-day meal plans with your own recipes, photos and method, for members to follow meal by meal</li>
         <li>Build once in your library, reuse for every member</li>
         <li>See each member's progress: workouts done, days on target</li>
       </ul>
@@ -335,6 +338,7 @@
       <div class="kicker">Fuel</div>
       <h2>Nutrition that lives next to the training</h2>
       <p>Members log food in the same app they book and train in. Coaches see whether they're hitting their targets, without asking for screenshots.</p>
+      <p class="optional-note"><b>Optional.</b> Nutrition stays off until you switch it on. If you just want to run a gym, leave it off and your members never see it.</p>
       <ul class="ticks">
         <li>A food diary with calories, protein, carbs and fat against their targets</li>
         <li>Snap a plate: take a photo of a meal to log it</li>
@@ -406,7 +410,7 @@
           <img src="assets/web-analytics.jpg" alt="Coach web app Analytics: active memberships, 30, 60 and 90-day retention and members by plan" width="1005" height="550" loading="lazy">
           <img src="assets/web-popular-classes.jpg" alt="Most popular classes by bookings" width="1005" height="118" loading="lazy">
         </div>
-        <div class="shot card"><img src="assets/staff-today.jpg" alt="Staff app Today screen: tomorrow's first class, who's booked in and the Class Board button" width="720" height="500" loading="lazy"></div>
+        <div class="shot card"><img src="assets/phone-book-class.jpg" alt="A member booking a class: the week's days, the class with its coach, spots left and a preview of the exercises, and the Book Class button" width="720" height="1113" loading="lazy"></div>
       </div>
     </div>
   </div>
@@ -422,7 +426,7 @@
       <ul class="ticks">
         <li>Clients with session credits you can top up in a tap</li>
         <li>Session plans from the client's programme, so each session picks up where the last left off</li>
-        <li>Nutrition targets and meal plans for each client</li>
+        <li>Nutrition targets and meal plans you build for each client</li>
         <li>Injuries and limitations noted on the client's profile</li>
         <li>Book the next session again in one tap</li>
         <li>Cast the session to the gym TV</li>
@@ -460,34 +464,23 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="kicker">Pricing</div>
-      <h2>Two tiers, one platform</h2>
-      <p>Every gym gets its own private space. Book a demo and we'll match the tier to how you run things.</p>
+      <h2>Priced around what you use</h2>
+      <p>Every gym runs differently. Tell us which parts you want, we switch those on, and the price follows. Don't want nutrition? We leave it off. You can add more later.</p>
     </div>
-    <div class="tiers">
-      <div class="tier reveal">
-        <div class="name">Core</div>
-        <h3>Everything to run the front desk</h3>
-        <div class="price">Talk to us about pricing</div>
-        <ul class="ticks">
-          <li>Class scheduling, booking and waitlists</li>
-          <li>Memberships and class packs</li>
-          <li>Card payments through Stripe</li>
-          <li>Your logo and colours</li>
-        </ul>
-        <a class="btn btn-ghost" href="mailto:hello@kelvafit.com?subject=KelvaFit%20Core%20demo">Book a demo</a>
-      </div>
-      <div class="tier featured reveal">
-        <div class="name">Performance</div>
-        <h3>Everything, plus real training</h3>
-        <div class="price">Talk to us about pricing</div>
-        <ul class="ticks">
-          <li>Everything in Core</li>
-          <li>Class plans, programmes and the Class Board</li>
-          <li>Nutrition targets, meal plans and the food diary</li>
-          <li>Personal bests, progress and the leaderboard</li>
-          <li>Personal training and analytics</li>
-        </ul>
-        <a class="btn btn-primary" href="mailto:hello@kelvafit.com?subject=KelvaFit%20Performance%20demo">Book a demo</a>
+    <div class="pick reveal">
+      <ul class="pick-list">
+          <li><b>Classes and booking</b><span>Timetable, booking, waitlists and the weekly view</span></li>
+          <li><b>Memberships and payments</b><span>Memberships, class packs and card payments through Stripe</span></li>
+          <li><b>Training</b><span>Class plans, programmes, logging and the Class Board</span></li>
+          <li><b>Progress</b><span>Personal bests, body tracking and the leaderboard</span></li>
+          <li><b>Personal training</b><span>Clients, session credits and session plans</span></li>
+          <li><b>Nutrition</b><span>Food diary, targets and your own meal plans</span></li>
+          <li><b>Analytics</b><span>Retention, members by plan and popular classes</span></li>
+          <li><b>Your brand</b><span>Your logo and colours in the app</span></li>
+      </ul>
+      <div class="pick-foot">
+        <p>Every gym gets its own private space. Talk to us and we'll put a price together for your gym.</p>
+        <a class="btn btn-primary" href="mailto:hello@kelvafit.com?subject=KelvaFit%20demo&amp;body=Hi%2C%20I'd%20like%20to%20book%20a%20KelvaFit%20demo.%0A%0AGym%20or%20business%20name%3A%0AMembers%20or%20clients%20(approx.)%3A%0AWhat%20we%20want%20to%20use%3A%0ABest%20time%20to%20talk%3A">Book a demo →</a>
       </div>
     </div>
     <p class="tier-note">Optional extra: your own app in the App Store and Google Play, under your gym's name.</p>
@@ -505,9 +498,12 @@
       <details><summary>I'm a personal trainer without a gym. Does it work for me?</summary><p>Yes. You can run KelvaFit for just yourself and your clients: session credits, programmes, nutrition targets and booking, with your own logo and colours.</p></details>
       <details><summary>Do my members need to download a new app?</summary><p>Members get the app on iPhone or Android and join your gym. Inside, they see your logo and colours.</p></details>
       <details><summary>Can we have our own app in the App Store?</summary><p>Yes, as an optional extra. We can publish an app under your gym's own name in the App Store and Google Play. Most gyms start with the standard app in their own colours.</p></details>
+      <details><summary>We just run a gym. Do we have to use the nutrition side?</summary><p>No. Nutrition is off until you switch it on in your gym settings, and while it's off your members don't see it. Classes, booking, training, progress and payments all work without it, and you can turn it on later if you want to.</p></details>
+      <details><summary>Does KelvaFit come with ready-made programmes or meal plans?</summary><p>No. KelvaFit gives you the tools, and you and your coaches write the programmes, meal plans and recipes. The exercise library and food database help you build them quickly, and your plans stay yours.</p></details>
       <details><summary>Is there a separate app for trainers?</summary><p>No. Members, trainers and admins use the same app, and each sees the tools for their role. The coach web app at app.kelvafit.com is there when you want a bigger screen.</p></details>
       <details><summary>How do payments work?</summary><p>Memberships and class packs are paid by card in the app, through Stripe.</p></details>
       <details><summary>Can you move our existing members across?</summary><p>Yes. We help bring your existing members, plans and contacts across, so switching doesn't mean starting from zero.</p></details>
+      <details><summary>Where are you based?</summary><p>In Dublin, Ireland. We set up every gym ourselves, by call and email, and you talk directly to the people who build KelvaFit.</p></details>
       <details><summary>Is our gym's data kept separate?</summary><p>Every gym gets its own private space. Your members, classes and results are only visible to your gym's staff, and members choose whether to appear on the leaderboard.</p></details>
       <details><summary>Does KelvaFit use AI?</summary><p>In a few places where it saves time: recognising the foods in a photo of a plate, drafting a programme for a coach to check and edit, and answering members' questions about their own training. Coaches stay in charge of what members are given.</p></details>
     </div>
@@ -535,7 +531,7 @@
       <a href="#train">Train</a><a href="#plans">Plans</a><a href="#fuel">Fuel</a><a href="#pt">Personal training</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
       <a href="https://app.kelvafit.com">Coach sign in</a><a href="mailto:hello@kelvafit.com">hello@kelvafit.com</a>
     </div>
-    <div>© 2026 KelvaFit</div>
+    <div>© 2026 KelvaFit · Made in Dublin, Ireland</div>
   </div>
 </footer>
 
