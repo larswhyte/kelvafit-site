@@ -61,10 +61,11 @@
   .hero-cta { display: flex; gap: 12px; justify-content: center; margin-top: 34px; flex-wrap: wrap; }
   .hero-note { margin-top: 16px; font-size: 13px; color: var(--dim); }
   .hero-note a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
-  .stage { position: relative; margin: 64px auto 0; max-width: 1000px; padding: 0 70px 60px; }
-  .stage .shot { position: absolute; width: 200px; }
-  .stage .hp-left { left: 0; bottom: 0; transform: rotate(-4deg); }
-  .stage .hp-right { right: 0; bottom: -10px; transform: rotate(4deg); }
+  .stage { display: flex; justify-content: center; align-items: center; gap: 36px; margin: 64px auto 0; max-width: 1000px; padding: 0 0 40px; }
+  .stage .shot { width: 230px; flex: none; }
+  .stage .hp-center { width: 270px; z-index: 2; }
+  .stage .hp-left { transform: rotate(-4deg) translateY(24px); }
+  .stage .hp-right { transform: rotate(4deg) translateY(24px); }
 
   /* Who it's for */
   .who { padding: 40px 0 8px; }
@@ -115,6 +116,9 @@
   .shot-row { display: flex; gap: 18px; justify-content: center; align-items: flex-start; }
   .shot-row .shot { width: 46%; max-width: 260px; }
   .shot-row .lift { margin-top: 48px; }
+  .shot-row .pt-stack { width: 46%; max-width: 260px; display: flex; flex-direction: column; }
+  .pt-stack .shot { width: 100%; max-width: none; }
+  .pt-stack .pt-whosin { width: 84%; margin: -70px 0 0 auto; position: relative; z-index: 2; transform: rotate(2deg) translateX(14px); }
   .tv-frame { background: #000; border: 10px solid #1b1f28; border-radius: 14px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.55); }
   .tv-frame img { display: block; width: 100%; height: auto; }
   .browser { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 40px 120px rgba(0,0,0,0.55); }
@@ -144,6 +148,7 @@
   .pick-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; margin: 0; padding: 0; }
   .pick-list li { display: flex; flex-direction: column; gap: 2px; padding: 12px 0 12px 30px; border-bottom: 1px solid var(--border); position: relative; }
   .pick-list li::before { content: "+"; position: absolute; left: 0; top: 11px; width: 20px; height: 20px; border-radius: 6px; background: rgba(79,209,197,0.15); color: var(--accent); font-weight: 800; font-size: 14px; display: grid; place-items: center; }
+  .pick-list li:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .pick-list b { font-size: 16px; }
   .pick-list span { color: var(--muted); font-size: 14px; }
   .pick-foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 26px; flex-wrap: wrap; }
@@ -183,8 +188,8 @@
     .nav-links { display: none; }
     .feature, .feature.flip { grid-template-columns: 1fr; gap: 36px; }
     .feature.flip .f-copy { order: 0; }
-    .stage { padding: 0 0 10px; margin-top: 48px; } .stage .shot, .stage .tv-frame { display: none; }
-    .stage .hp-right { display: block; position: relative; right: auto; bottom: auto; transform: none; width: 78%; max-width: 300px; margin: 0 auto; }
+    .stage { padding: 0 0 10px; margin-top: 48px; } .stage .hp-left, .stage .hp-right { display: none; }
+    .stage .hp-center { width: 78%; max-width: 300px; margin: 0 auto; }
     .run-visual { padding-right: 0; padding-bottom: 0; }
     .run-visual .shot { position: relative; width: 60%; max-width: 240px; margin: -40px 0 0 auto; }
   }
@@ -242,9 +247,9 @@
     </div>
 
     <div class="stage reveal">
-      <div class="tv-frame"><img src="assets/tv-class-board.jpg" alt="The Class Board on a gym TV: each member's weights for every exercise, with completed sets in green" width="1600" height="720"></div>
-      <div class="shot hp-left"><img src="assets/strip-ironvale.jpg" alt="A member's home screen: next class, training streak and today's food" width="720" height="1373"></div>
-      <div class="shot hp-right"><img src="assets/staff-home.jpg" alt="The trainer's home screen in the staff app: the next class, how many are booked, who's in, the Class Board button and the day's classes" width="720" height="1249"></div>
+      <div class="shot hp-left"><img src="assets/phone-muscle-map.jpg" alt="A member's muscle split on a body map, showing which muscles they have trained most" width="720" height="1373"></div>
+      <div class="shot hp-center"><img src="assets/staff-home.jpg" alt="The trainer's home screen in the staff app: the next class, how many are booked, who's in, the Class Board button and the day's classes" width="720" height="1249"></div>
+      <div class="shot hp-right"><img src="assets/phone-book-class.jpg" alt="A member booking a class: the week's days, the class with its coach, spots left and a preview of the exercises, and the Book Class button" width="720" height="1113"></div>
     </div>
   </div>
 </section>
@@ -397,6 +402,7 @@
       <ul class="ticks">
         <li>Class booking, schedules and waitlists</li>
         <li>Memberships, class packs and card payments through Stripe</li>
+        <li>Your own gym shop: sell your tees, hoodies and shakers in the app, paid by card and collected at the gym</li>
         <li>Analytics: active memberships, retention, members by plan, popular classes and fill rates</li>
         <li>Nudges for members who've gone quiet</li>
         <li>The coach web app at app.kelvafit.com for programmes, members and the numbers</li>
@@ -410,7 +416,7 @@
           <img src="assets/web-analytics.jpg" alt="Coach web app Analytics: active memberships, 30, 60 and 90-day retention and members by plan" width="1005" height="550" loading="lazy">
           <img src="assets/web-popular-classes.jpg" alt="Most popular classes by bookings" width="1005" height="118" loading="lazy">
         </div>
-        <div class="shot card"><img src="assets/phone-book-class.jpg" alt="A member booking a class: the week's days, the class with its coach, spots left and a preview of the exercises, and the Book Class button" width="720" height="1113" loading="lazy"></div>
+        <div class="shot card"><img src="assets/phone-shop.jpg" alt="The gym shop in the member app: tee, cap, duffel bag and hoodie with prices and Buy buttons" width="720" height="933" loading="lazy"></div>
       </div>
     </div>
   </div>
@@ -435,7 +441,10 @@
     <div class="f-visual reveal">
       <div class="glow"></div>
       <div class="shot-row">
-        <div class="shot card"><img src="assets/staff-pt-client.jpg" alt="A PT client's page: book a session, injuries and limitations, session credits and programme progress" width="720" height="723" loading="lazy"></div>
+        <div class="pt-stack">
+          <div class="shot card"><img src="assets/staff-pt-client.jpg" alt="A PT client's page: book a session, injuries and limitations, session credits and programme progress" width="720" height="723" loading="lazy"></div>
+          <div class="shot card pt-whosin"><img src="assets/staff-whos-in.jpg" alt="Who's in for a class in the staff app: 9 of 10 booked, with each member listed" width="720" height="1173" loading="lazy"></div>
+        </div>
         <div class="shot card lift"><img src="assets/staff-class-plan.jpg" alt="A session plan with a warm-up, a superset and two tri-sets" width="720" height="1253" loading="lazy"></div>
       </div>
     </div>
@@ -475,6 +484,7 @@
           <li><b>Progress</b><span>Personal bests, body tracking and the leaderboard</span></li>
           <li><b>Personal training</b><span>Clients, session credits and session plans</span></li>
           <li><b>Nutrition</b><span>Food diary, targets and your own meal plans</span></li>
+          <li><b>Gym shop</b><span>Sell your own merch in the app, collected at the gym</span></li>
           <li><b>Analytics</b><span>Retention, members by plan and popular classes</span></li>
           <li><b>Your brand</b><span>Your logo and colours in the app</span></li>
       </ul>
